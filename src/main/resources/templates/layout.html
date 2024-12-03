@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<body>
+
+<!-- Include Header -->
+<div th:replace="~{/fragments/header :: header}"></div>
+<div th:replace="~{/fragments/chat :: div}"></div>
+
+<div th:if="${session.user.getRoleName() == 'Customer'}" th:replace="~{/fragments/cart :: div}"></div>
+
+<!-- Content chính sẽ được thay thế ở đây -->
+<main>
+    <div layout:fragment="content">
+        <!-- Nội dung sẽ được thay thế tại đây -->
+    </div>
+</main>
+
+<!-- Include Footer -->
+<div th:replace="~{/fragments/footer :: footer}"></div>
+
+</body>
+
+
+</html>

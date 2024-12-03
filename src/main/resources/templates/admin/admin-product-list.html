@@ -1,0 +1,221 @@
+
+<head>
+    <title>Admin - Products</title>
+   <link rel="stylesheet" href="/assets/css/admin/admin-product-list.css"> 
+	
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="meta description">
+
+    <!-- Site title -->
+    <title>Galio - Mega Shop Responsive Bootstrap 4 Template</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" th:href="@{/assets/img/favicon.ico}" type="image/x-icon" />
+    <!-- Bootstrap CSS -->
+    <link th:href="@{/assets/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Font-Awesome CSS -->
+    <link th:href="@{/assets/css/font-awesome.min.css}" rel="stylesheet">
+    <!-- helper class css -->
+    <link th:href="@{/assets/css/helper.min.css}" rel="stylesheet">
+    <!-- Plugins CSS -->
+    <link th:href="@{/assets/css/plugins.css}" rel="stylesheet">
+    <!-- Main Style CSS -->
+    <link th:href="@{/assets/css/chat.css}" rel="stylesheet">
+    <link th:href="@{/assets/css/style.css}" rel="stylesheet">
+    <link th:href="@{/assets/css/skin-default.css}" rel="stylesheet" id="galio-skin">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Đặt nền trắng cho body và font chữ cơ bản */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff; /* Nền trắng */
+            color: #333; /* Chữ màu xám đậm */
+        }
+
+        /* Tiêu đề căn giữa với màu đỏ */
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 36px;
+            color: #d8373e; /* Màu đỏ chủ đạo */
+        }
+
+        /* Bảng hiển thị sản phẩm */
+        table {
+            width: 100%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #ffffff; /* Nền trắng */
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Bóng mờ nhẹ */
+        }
+
+        th, section.row td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #dcdcdc; /* Đường viền nhạt */
+        }
+
+        th {
+            background-color: #d8373e; /* Màu đỏ */
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9; /* Màu nền nhạt cho hàng chẵn */
+        }
+
+        tr:nth-child(odd) {
+            background-color: #ffffff; /* Nền trắng cho hàng lẻ */
+        }
+
+        /* Các nút hành động */
+        a {
+            color: #d8373e; /* Màu đỏ */
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #d8373e; /* Đỏ đậm khi hover */
+        }
+
+        /* Canh giữa phân trang */
+        span {
+            text-align: center;
+            margin: 20px 0;
+            display: inline-block;
+        }
+
+        span a {
+            padding: 8px 12px;
+            margin: 0 5px;
+            border-radius: 5px;
+            background-color: #ecf0f1; /* Xám sáng */
+            text-decoration: none;
+            color: #333;
+            margin-left: 20px;
+        }
+
+        span a.active {
+            background-color: #d8373e; /* Đỏ */
+            color: white;
+		margin-left: 20px;
+        }
+
+        span a:hover {
+            background-color: #bdc3c7; /* Xám nhạt */
+        }
+
+        /* Nút Add Product */
+        .btn-red {
+            background-color: #d8373e; /* Đỏ */
+            color: white;
+            border: none;
+            padding: 15px 30px; /* Kích thước nút lớn */
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 8px; /* Bo tròn góc */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bóng mờ */
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            margin: 50px ; /* Tạo khoảng cách và căn giữa */
+            display: block; /* Đặt nút thành block để căn giữa */
+        }
+
+        .btn-red:hover {
+            background-color: #c0392b; /* Đỏ đậm khi hover */
+            transform: scale(1.05); /* Phóng to nhẹ khi hover */
+        }
+
+
+
+
+
+        /* Tạo không gian giữa phân trang và nút */
+         div.pagination + .btn-red {
+             text-align: center;
+            margin-top: 10px; /* Khoảng cách giữa phân trang và nút */
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/chat :: div"></div>
+<div th:replace="fragments/cart :: div"></div>	
+	
+	<div class="container">
+        <!-- Hiển thị thông báo lỗi, thông báo thành công, hoặc thông báo thông tin -->
+        <div th:if="${errorMessage}" class="alert alert-danger">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
+        <div th:if="${infoMessage}" class="alert alert-info">
+            <p th:text="${infoMessage}"></p>
+        </div>
+
+        <div th:if="${successMessage}" class="alert alert-success">
+            <p th:text="${successMessage}"></p>
+        </div>
+
+        <h1>Danh Sách Sản Phẩm</h1>
+        <table border="1">
+            <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Tên</th>
+                <th>Giá</th>
+                <th>Trạng Thái</th>
+                <th>Thể Loại</th>
+                <th>Nhà Sản Xuất</th>
+                <th>Hành Động</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${products}">
+                <td th:text="${product.productID}"></td>
+                <td th:text="${product.name}"></td>
+                <td th:text="${product.price}"></td>
+                <td th:text="${product.status}"></td>
+                <td th:text="${product.category.name}"></td>
+                <td th:text="${product.manufacturer.name}"></td>
+                <td>
+                    <!-- Nút Edit -->
+                    <a th:href="@{/admin/products/edit{id}(id=${product.productID})}">Chỉnh sửa</a>
+
+                    <!-- Nút Delete -->
+                    <a th:href="@{/admin/products/delete{id}(id=${product.productID})}"
+                       onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?')">Xóa</a>
+
+                    <!-- Nút Details -->
+                    <a th:href="@{/admin/products/details/{id}(id=${product.productID})}">Xem Chi Tiết</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+            <a th:href="@{/admin/products(page=${i})}" th:text="${i}"
+               th:classappend="${i == currentPage} ? 'active' : ''"></a>
+            </span>
+            <button class="btn-red" onclick="window.location.href='/admin/products/add'">Thêm Sản Phẩm</button>
+
+    </div>
+    
+    
+    <!-- Liên kết tới JS -->
+    <script src="/assets/js/admin/admin-product-list.js"></script>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

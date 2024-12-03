@@ -1,0 +1,98 @@
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="meta description">
+
+    <!-- Site title -->
+    <title>Galio - Mega Shop Responsive Bootstrap 4 Template</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" th:href="@{/assets/img/favicon.ico}" type="image/x-icon" />
+    <!-- Bootstrap CSS -->
+    <link th:href="@{/assets/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Font-Awesome CSS -->
+    <link th:href="@{/assets/css/font-awesome.min.css}" rel="stylesheet">
+    <!-- helper class css -->
+    <link th:href="@{/assets/css/helper.min.css}" rel="stylesheet">
+    <!-- Plugins CSS -->
+    <link th:href="@{/assets/css/plugins.css}" rel="stylesheet">
+    <!-- Main Style CSS -->
+    <link th:href="@{/assets/css/chat.css}" rel="stylesheet">
+    <link th:href="@{/assets/css/style.css}" rel="stylesheet">
+    <link th:href="@{/assets/css/skin-default.css}" rel="stylesheet" id="galio-skin">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/chat :: div"></div>
+<div th:replace="fragments/cart :: div"></div>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Phản hồi đánh giá sản phẩm</h2>
+
+    <!-- Nút quay lại danh sách đánh giá -->
+    <div class="mb-3">
+        <a href="/admin/rate-list" class="btn btn-secondary">Quay lại danh sách đánh giá</a>
+    </div>
+
+    <!-- Thông tin sản phẩm -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Tên sản phẩm: <span th:text="${rate.product.name}"></span></h5>
+            <p class="card-text">
+                Mô tả sản phẩm: <span th:text="${rate.product.detail.description}">Mô tả sản phẩm</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Nội dung đánh giá của khách hàng -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Đánh giá của khách hàng</h5>
+            <p class="font-weight-bold">Khách hàng: <span th:text="${rate.user.name}"></span></p>
+            <p><span th:text="${rate.content}">Nội dung đánh giá</span></p>
+            <p><strong>Điểm đánh giá: </strong><span th:text="${rate.rate}"></span></p>
+        </div>
+    </div>
+
+    <!-- Phản hồi của Admin -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Phản hồi của Admin</h5>
+            <p th:text="${rate.response}">Phản hồi từ admin</p>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<div th:replace="fragments/footer :: footer"></div>
+<!--All jQuery, Third Party Plugins & Activation (main.js) Files-->
+<script th:src="@{/assets/js/vendor/modernizr-3.6.0.min.js}"></script>
+<!-- Jquery Min Js -->
+<script th:src="@{/assets/js/vendor/jquery-3.3.1.min.js}"></script>
+<!-- Popper Min Js -->
+<script th:src="@{/assets/js/vendor/popper.min.js}"></script>
+<!-- Bootstrap Min Js -->
+<script th:src="@{/assets/js/vendor/bootstrap.min.js}"></script>
+<!-- Plugins Js-->
+<script th:src="@{/assets/js/plugins.js}"></script>
+<!-- Ajax Mail Js -->
+<script th:src="@{/assets/js/ajax-mail.js}"></script>
+
+<script th:src="@{/assets/js/chat.js}"></script>
+<!-- Active Js -->
+<script th:src="@{/assets/js/main.js}"></script>
+<!-- Switcher JS [Please Remove this when Choose your Final Projct] -->
+<script th:src="@{/assets/js/switcher.js}"></script>
+</body>

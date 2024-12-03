@@ -1,0 +1,154 @@
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="meta description">
+
+    <!-- Site title -->
+    <title>Galio - Mega Shop Responsive Bootstrap 4 Template</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" th:href="@{/assets/img/favicon.ico}" type="image/x-icon" />
+    <!-- Bootstrap CSS -->
+    <link th:href="@{/assets/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Font-Awesome CSS -->
+    <link th:href="@{/assets/css/font-awesome.min.css}" rel="stylesheet">
+    <!-- helper class css -->
+    <link th:href="@{/assets/css/helper.min.css}" rel="stylesheet">
+    <!-- Plugins CSS -->
+    <link th:href="@{/assets/css/plugins.css}" rel="stylesheet">
+    <!-- Main Style CSS -->
+    <link th:href="@{/assets/css/chat.css}" rel="stylesheet">
+    <link th:href="@{/assets/css/style.css}" rel="stylesheet">
+    <link th:href="@{/assets/css/skin-default.css}" rel="stylesheet" id="galio-skin">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/chat :: div"></div>
+<div th:replace="fragments/cart :: div"></div>
+<div class="wrapper box-layout">
+
+    <!-- Header -->
+    <th:block th:replace="~{fragments/header.html}"></th:block>
+
+    <!-- Breadcrumb -->
+    <th:block th:replace="~{fragments/breadcrumb.html}"></th:block>
+
+    <div class="my-account-wrapper pt-4 pb-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="myaccount-page-wrapper">
+                        <h2 class="section-title" th:text="${promotion.promotionID != null ? 'Sửa mã khuyến mãi' : 'Tạo mới mã khuyến mãi'}"></h2>
+
+                        <!-- Form -->
+                        <form th:action="@{/admin/promotions/save}" method="post" class="mt-4">
+                            <!-- Hidden field để truyền promotionID nếu chỉnh sửa -->
+                            <input type="hidden" name="promotionID" th:value="${promotion.promotionID}" />
+
+                            <div class="row">
+                                <!-- Discount Amount -->
+                                <div class="col-lg-3">
+                                    <div class="single-input-item">
+                                        <label for="discountAmount" class="required">Giá trị mã khuyến mãi</label>
+                                        <input type="number" id="discountAmount" name="discountAmount" class="form-control"
+                                               th:value="${promotion.discountAmount}" placeholder="Nhập giá trị của mã khuyến mãi (VND)" required />
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3">
+                                    <div class="single-input-item">
+                                        <label for="remainingUses" class="required">Lượt sử dụng</label>
+                                        <input type="number" id="remainingUses" name="remainingUses" class="form-control"
+                                               th:value="${promotion.remainingUses}" placeholder="Nhập số lượt sử dụng mã khuyến mãi" required />
+                                    </div>
+                                </div>
+
+                                <!-- Valid From -->
+                                <div class="col-lg-6">
+                                    <div class="single-input-item">
+                                        <label for="validFrom" class="required">Ngày bắt đầu áp dụng</label>
+                                        <input type="date" id="validFrom" name="validFrom" class="form-control"
+                                               th:value="${#dates.format(promotion.validFrom, 'yyyy-MM-dd')}" min="${#dates.format(new java.util.Date(), 'yyyy-MM-dd')}" required />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <!-- Valid To -->
+                                <div class="col-lg-6">
+                                    <div class="single-input-item">
+                                        <label for="validTo" class="required">Ngày kết thúc</label>
+                                        <input type="date" id="validTo" name="validTo" class="form-control"
+                                               th:value="${#dates.format(promotion.validTo, 'yyyy-MM-dd')}" required />
+                                    </div>
+                                </div>
+
+                                <!-- Promotion Code -->
+                                <div class="col-lg-6">
+                                    <div class="single-input-item">
+                                        <label for="promotionCode" class="required">Mã khuyến mãi</label>
+                                        <input type="text" id="promotionCode" name="promotionCode" class="form-control"
+                                               th:value="${promotion.promotionCode}" placeholder="Nhập mã khuyến mãi" required />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Description -->
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="single-input-item">
+                                        <label for="description">Mô tả</label>
+                                        <textarea id="description" name="description" class="form-control" rows="3"
+                                                  th:text="${promotion.description}" placeholder="Nhập thông tin về mã khuyến mãi"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Thông báo -->
+                            <div th:if="${errorMessage != null}" class="alert alert-danger mt-3" th:text="${errorMessage}"></div>
+                            <div th:if="${successMessage != null}" class="alert alert-success mt-3" th:text="${successMessage}"></div>
+                            <!-- Buttons -->
+                            <div class="single-input-item mt-3">
+                                <button type="submit" class="check-btn sqr-btn" th:text="${promotion.promotionID != null ? 'Lưu thay đổi' : 'Lưu'}"></button>
+                                <a href="javascript:void(0);" class="check-btn sqr-btn btn-secondary" onclick="history.back()">Trở về</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <th:block th:replace="~{fragments/footer.html}"></th:block>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+    <script th:src="@{/assets/js/promotion.js}"></script>
+<!--All jQuery, Third Party Plugins & Activation (main.js) Files-->
+<script th:src="@{/assets/js/vendor/modernizr-3.6.0.min.js}"></script>
+<!-- Jquery Min Js -->
+<script th:src="@{/assets/js/vendor/jquery-3.3.1.min.js}"></script>
+<!-- Popper Min Js -->
+<script th:src="@{/assets/js/vendor/popper.min.js}"></script>
+<!-- Bootstrap Min Js -->
+<script th:src="@{/assets/js/vendor/bootstrap.min.js}"></script>
+<!-- Plugins Js-->
+<script th:src="@{/assets/js/plugins.js}"></script>
+<!-- Ajax Mail Js -->
+<script th:src="@{/assets/js/ajax-mail.js}"></script>
+
+<script th:src="@{/assets/js/chat.js}"></script>
+<!-- Active Js -->
+<script th:src="@{/assets/js/main.js}"></script>
+<!-- Switcher JS [Please Remove this when Choose your Final Projct] -->
+<script th:src="@{/assets/js/switcher.js}"></script>
+</body>

@@ -1,0 +1,171 @@
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="meta description">
+
+    <!-- Site title -->
+    <title>Galio - Mega Shop Responsive Bootstrap 4 Template</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" th:href="@{/assets/img/favicon.ico}" type="image/x-icon" />
+    <!-- Bootstrap CSS -->
+    <link th:href="@{/assets/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Font-Awesome CSS -->
+    <link th:href="@{/assets/css/font-awesome.min.css}" rel="stylesheet">
+    <!-- helper class css -->
+    <link th:href="@{/assets/css/helper.min.css}" rel="stylesheet">
+    <!-- Plugins CSS -->
+    <link th:href="@{/assets/css/plugins.css}" rel="stylesheet">
+    <!-- Main Style CSS -->
+    <link th:href="@{/assets/css/chat.css}" rel="stylesheet">
+    <link th:href="@{/assets/css/style.css}" rel="stylesheet">
+    <link th:href="@{/assets/css/skin-default.css}" rel="stylesheet" id="galio-skin">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/chat :: div"></div>
+<div th:replace="fragments/cart :: div"></div>
+
+<!-- login register wrapper start -->
+    <div class="login-register-wrapper">
+        <div class="container">
+            <div class="member-area-from-wrap">
+                <div class="row">
+                    <!-- Register Content Start -->
+                    <div class="col-lg-6">
+                        <div class="login-reg-form-wrap mt-md-34 mt-sm-34">
+                            <h2>Đăng ký</h2>
+                            <div th:if="${mess}" class="alert alert-danger">
+                                <p th:text="${mess}"></p>
+                            </div>
+                            <form action="#" th:action="@{/save}" th:object="${user}" method="post" id="myForm" onsubmit="return validateForm();">
+                                <div class="single-input-item">
+                                    <input type="text" th:field="*{name}" placeholder="Họ tên đầy đủ" required />
+                                </div>
+                                <div class="single-input-item">
+                                    <input type="email"
+                                           placeholder="Email"
+                                           th:field="*{email}"
+                                           name="username"
+                                           required
+                                           pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                                           title="Nhập đúng định dạng email!" />
+                                </div>
+
+                                <script>
+                                    var check = function () {
+                                        if (document.getElementById('password').value.trim() !== '' && !isValidPassword(document.getElementById('password').value)) {
+                                            document.querySelector('.error-password').innerText = 'Mật khẩu phải là dạng trống hoặc bao gồm ít nhất 6 kí tự, có cả chữ hoa, chữ thường, số và kí tự đặc biệt';
+                                        }
+                                        else {
+                                            document.querySelector('.error-password').innerText = "";
+                                        }
+
+                                        if (document.getElementById('password').value ===
+                                            document.getElementById('confirm_password').value) {
+                                            document.getElementById('message').style.color = 'green';
+                                            document.getElementById('message').innerHTML = 'Mật Khẩu Trùng Khớp!';
+                                        } else {
+                                            document.getElementById('message').style.color = 'red';
+                                            document.getElementById('message').innerHTML = 'Mật Khẩu Không Trùng Khớp!';
+                                        }
+                                    }
+
+                                    // Validate the form before submitting
+                                    function validateForm() {
+                                        var password = document.getElementById('password').value;
+                                        var confirmPassword = document.getElementById('confirm_password').value;
+                                        console.log(password)
+                                        console.log(confirmPassword)
+
+                                        if (password !== confirmPassword) {
+                                            alert('Mật khẩu và mật khẩu xác nhận không khớp!');
+                                            return false;
+                                        }
+
+                                        if (!isValidPassword(password)) {
+                                            alert('Mật khẩu phải có ít nhất 6 ký tự, bao gồm cả chữ hoa, chữ thường, số và ký tự đặc biệt!');
+                                            return false;
+                                        }
+
+                                        return true;
+                                    }
+
+                                    function isValidPassword(password) {
+                                        var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+                                        return regex.test(password);
+                                    }
+                                </script>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="single-input-item">
+                                            <input type="password" th:field="*{password}" placeholder="Mật khẩu"
+                                                   required id="password" name="password"
+                                                   onkeyup='check();' />
+                                            <small class="text-danger error-password"></small>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="single-input-item">
+                                            <input type="password" name="confirm_password" id="confirm_password"
+                                                   onkeyup='check();' placeholder="Nhập lại Mật khẩu" required />
+                                            <span id='message'></span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="single-input-item">
+                                    <div class="login-reg-form-meta">
+                                        <div class="remember-meta">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="subnewsletter">
+                                                <label class="custom-control-label" for="subnewsletter">Đăng ký bản tin</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="single-input-item">
+                                    <button type="submit" class="sqr-btn">Đăng ký</button>
+                                </div>
+                            </form>
+                            <a th:href="@{/login}" class="forget-pwd">Đăng nhập</a>
+
+                        </div>
+                    </div>
+                    <!-- Register Content End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- login register wrapper end -->
+<!--All jQuery, Third Party Plugins & Activation (main.js) Files-->
+<script th:src="@{/assets/js/vendor/modernizr-3.6.0.min.js}"></script>
+<!-- Jquery Min Js -->
+<script th:src="@{/assets/js/vendor/jquery-3.3.1.min.js}"></script>
+<!-- Popper Min Js -->
+<script th:src="@{/assets/js/vendor/popper.min.js}"></script>
+<!-- Bootstrap Min Js -->
+<script th:src="@{/assets/js/vendor/bootstrap.min.js}"></script>
+<!-- Plugins Js-->
+<script th:src="@{/assets/js/plugins.js}"></script>
+<!-- Ajax Mail Js -->
+<script th:src="@{/assets/js/ajax-mail.js}"></script>
+
+<script th:src="@{/assets/js/chat.js}"></script>
+<!-- Active Js -->
+<script th:src="@{/assets/js/main.js}"></script>
+<!-- Switcher JS [Please Remove this when Choose your Final Projct] -->
+<script th:src="@{/assets/js/switcher.js}"></script>
+    <div th:replace="fragments/footer :: footer"></div>
+</body>

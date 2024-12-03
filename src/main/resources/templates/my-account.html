@@ -1,0 +1,167 @@
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="meta description">
+
+    <!-- Site title -->
+    <title>Galio - Mega Shop Responsive Bootstrap 4 Template</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" th:href="@{/assets/img/favicon.ico}" type="image/x-icon" />
+    <!-- Bootstrap CSS -->
+    <link th:href="@{/assets/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Font-Awesome CSS -->
+    <link th:href="@{/assets/css/font-awesome.min.css}" rel="stylesheet">
+    <!-- helper class css -->
+    <link th:href="@{/assets/css/helper.min.css}" rel="stylesheet">
+    <!-- Plugins CSS -->
+    <link th:href="@{/assets/css/plugins.css}" rel="stylesheet">
+    <!-- Main Style CSS -->
+    <link th:href="@{/assets/css/chat.css}" rel="stylesheet">
+    <link th:href="@{/assets/css/style.css}" rel="stylesheet">
+    <link th:href="@{/assets/css/skin-default.css}" rel="stylesheet" id="galio-skin">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/chat :: div"></div>
+<div th:replace="fragments/cart :: div"></div>
+    <div class="my-account-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- My Account Page Start -->
+                    <div class="myaccount-page-wrapper">
+                        <!-- My Account Tab Menu Start -->
+                        <div class="row">
+
+                            <!-- My Account Tab Content Start -->
+                            <div class="col-lg-9 col-md-8">
+                                <div class="tab-content" id="myaccountContent">
+
+                                    <!-- Single Tab Content Start -->
+
+                                    <div class="myaccount-content">
+                                        <h3>Orders</h3>
+                                        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                                            <span th:text="${errorMessage}"></span>
+                                        </div>
+                                        <div class="myaccount-table table-responsive text-center">
+                                            <table class="table table-bordered">
+                                                <thead class="thead-light">
+                                                <tr>
+                                                    <th>Mã đơn hàng</th>
+                                                    <th>Ngày đặt</th>
+                                                    <th>Trạng thái</th>
+                                                    <th>Tổng tiền</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:each="order : ${orders}">
+                                                    <td th:text="${order.orderId}"></td>
+                                                    <td th:text="${#temporals.format(order.orderDate, 'dd/MM/yyyy')}"></td>
+                                                    <td th:text="${order.shippingStatus}"></td>
+                                                    <td th:text="${order.payment.total}"></td>
+                                                    <td>
+                                                        <a th:href="@{/purchasedProduct(orderId=${order.orderId})}" class="btn btn-info btn-sm">Xem chi tiết</a>
+                                                        <button th:data-order-id="${order.orderId}" onclick="showCancelForm(this)" class="btn btn-danger btn-sm">Hủy đơn hàng</button>
+
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <!-- Single Tab Content End -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hộp thoại nhập thông tin hủy đơn -->
+    <div id="cancelModal" style="display:none;">
+        <form id="cancelForm" action="/history/cancel" method="post">
+            <input type="hidden" name="orderId" id="cancelOrderId">
+            <div>
+                <label for="bankName">Tên Ngân Hàng:</label>
+                <input type="text" id="bankName" name="bankName" required>
+            </div>
+            <div>
+                <label for="accountName">Tên Chủ Tài Khoản:</label>
+                <input type="text" id="accountName" name="accountName" required>
+            </div>
+            <div>
+                <label for="accountNumber">Số Tài Khoản:</label>
+                <input type="text" id="accountNumber" name="accountNumber" required>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-danger">Xác nhận hủy</button>
+                <button type="button" class="btn btn-secondary" onclick="closeCancelForm()">Hủy bỏ</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function showCancelForm(button) {
+
+            // Lấy hàng hiện tại (row) từ nút nhấn
+            const row = button.closest('tr');
+
+            // Lấy giá trị của cột trạng thái trong hàng hiện tại
+            const statusCell = row.querySelector('td:nth-child(3)'); // Cột trạng thái
+            const status = statusCell ? statusCell.textContent.trim() : "";
+
+            // Kiểm tra trạng thái
+            if (status.toUpperCase() === "Đã huỷ") {
+                alert("Đơn hàng này đã bị hủy trước đó!");
+                return;
+            }
+
+            const orderId = button.getAttribute("data-order-id");
+            console.log(orderId);
+            if (isNaN(orderId)) {
+                alert('ID đơn hàng không hợp lệ');
+                return;
+            }
+            document.getElementById("cancelOrderId").value = orderId;
+            document.getElementById("cancelModal").style.display = "block";
+        }
+
+        function closeCancelForm() {
+            document.getElementById("cancelModal").style.display = "none";
+        }
+    </script>
+<div th:replace="fragments/footer :: footer"></div>
+<!--All jQuery, Third Party Plugins & Activation (main.js) Files-->
+<script th:src="@{/assets/js/vendor/modernizr-3.6.0.min.js}"></script>
+<!-- Jquery Min Js -->
+<script th:src="@{/assets/js/vendor/jquery-3.3.1.min.js}"></script>
+<!-- Popper Min Js -->
+<script th:src="@{/assets/js/vendor/popper.min.js}"></script>
+<!-- Bootstrap Min Js -->
+<script th:src="@{/assets/js/vendor/bootstrap.min.js}"></script>
+<!-- Plugins Js-->
+<script th:src="@{/assets/js/plugins.js}"></script>
+<!-- Ajax Mail Js -->
+<script th:src="@{/assets/js/ajax-mail.js}"></script>
+
+<script th:src="@{/assets/js/chat.js}"></script>
+<!-- Active Js -->
+<script th:src="@{/assets/js/main.js}"></script>
+<!-- Switcher JS [Please Remove this when Choose your Final Projct] -->
+<script th:src="@{/assets/js/switcher.js}"></script>
+</body>

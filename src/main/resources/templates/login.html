@@ -1,0 +1,109 @@
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="meta description">
+
+    <!-- Site title -->
+    <title>Galio - Mega Shop Responsive Bootstrap 4 Template</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" th:href="@{/assets/img/favicon.ico}" type="image/x-icon" />
+    <!-- Bootstrap CSS -->
+    <link th:href="@{/assets/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Font-Awesome CSS -->
+    <link th:href="@{/assets/css/font-awesome.min.css}" rel="stylesheet">
+    <!-- helper class css -->
+    <link th:href="@{/assets/css/helper.min.css}" rel="stylesheet">
+    <!-- Plugins CSS -->
+    <link th:href="@{/assets/css/plugins.css}" rel="stylesheet">
+    <!-- Main Style CSS -->
+    <link th:href="@{/assets/css/chat.css}" rel="stylesheet">
+    <link th:href="@{/assets/css/style.css}" rel="stylesheet">
+    <link th:href="@{/assets/css/skin-default.css}" rel="stylesheet" id="galio-skin">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/chat :: div"></div>
+<div th:replace="fragments/cart :: div"></div>
+        <div class="login-register-wrapper">
+            <div class="container">
+                <div class="member-area-from-wrap">
+                    <div class="row">
+                        <!-- Login Content Start -->
+                        <div class="col-lg-6">
+                            <div class="login-reg-form-wrap  pr-lg-50">
+                                <h2>Đăng nhập</h2>
+
+                                <div th:if="${error}" class="alert alert-danger">
+                                    <p th:text="${error}"></p>
+                                </div>
+
+                                <form action="#" th:action="@{/login}" method="post" id="myForm">
+                                    <div class="single-input-item">
+                                        <!-- Email field with pattern for stricter validation -->
+                                        <input
+                                                type="email"
+                                                placeholder="Email"
+                                                name="username"
+                                                required
+                                                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                                                title="Nhập đúng định dạng email!" />
+                                    </div>
+                                    <div class="single-input-item">
+                                        <input type="password" placeholder="Mật khẩu" name="password" required />
+                                    </div>
+                                    <div class="single-input-item">
+                                        <div class="login-reg-form-meta d-flex align-items-center justify-content-between">
+                                            <div class="remember-meta">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="rememberMe">
+                                                    <label class="custom-control-label" for="rememberMe">Ghi nhớ tôi</label>
+                                                </div>
+                                            </div>
+                                            <a th:href="@{/recover}" class="forget-pwd">Quên mật khẩu</a>
+                                        </div>
+                                    </div>
+                                    <div class="single-input-item">
+                                        <button type="submit" class="sqr-btn">Đăng nhập</button>
+                                    </div>
+                                </form>
+                                <a th:href="@{/register}" class="forget-pwd">Đăng ký</a>
+
+                            </div>
+                        </div>
+                        <!-- Login Content End -->
+                        <!-- Register Content End -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<div th:replace="fragments/footer :: footer"></div>
+<!--All jQuery, Third Party Plugins & Activation (main.js) Files-->
+<script th:src="@{/assets/js/vendor/modernizr-3.6.0.min.js}"></script>
+<!-- Jquery Min Js -->
+<script th:src="@{/assets/js/vendor/jquery-3.3.1.min.js}"></script>
+<!-- Popper Min Js -->
+<script th:src="@{/assets/js/vendor/popper.min.js}"></script>
+<!-- Bootstrap Min Js -->
+<script th:src="@{/assets/js/vendor/bootstrap.min.js}"></script>
+<!-- Plugins Js-->
+<script th:src="@{/assets/js/plugins.js}"></script>
+<!-- Ajax Mail Js -->
+<script th:src="@{/assets/js/ajax-mail.js}"></script>
+
+<script th:src="@{/assets/js/chat.js}"></script>
+<!-- Active Js -->
+<script th:src="@{/assets/js/main.js}"></script>
+<!-- Switcher JS [Please Remove this when Choose your Final Projct] -->
+<script th:src="@{/assets/js/switcher.js}"></script>
+</body>
